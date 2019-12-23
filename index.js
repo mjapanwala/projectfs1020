@@ -7,13 +7,12 @@ let path = require('path');
 let util = require('util');
 console.log(path.resolve('db.json'))
 
-
+// Body Parser Middleware
 app.use(express.json());
 
 app.listen(port, handleServerListen => {
   console.log(`Port is listening on ${port}`)
 });
-
 
 /**
  * Database
@@ -43,41 +42,31 @@ async function addItem(item) {
   dbItems.push(item);
   await write(dbItems);
 }
-
-
-
-
 /**
  * Routes
  */
 
 // Create submission
-app.post('/submissions', async (req, res) => {
-  res.send('Create submission');
-});
-
+app.post('/submissions',  (req, res) => {
+  res.send('Create Submission')
+})
 // Route to get a listing of all submissions.
-app.get('/allsubmissions', (req, res) => {
-  // res.send('All submissions');
-  res.send( await read());
+app.get('/allsubmissions', async (req, res) => {
+  res.send(await read());
 });
-
 
 //Create new user
-//Attempt at Async Function for new user above`//////Same thing
  app.post('/user', (req, res) => {
-  console.log(req.body); 
-  res.send(addItem) })
-
-//Route to log a registered user in to create a session.
- app.post('/session', (req, res) => {
-   res.send('new session')
+  res.send(req.body)
  })
 
-// Default error handling
-app.use(function (error, req, res, next) {
+//Route to log a registered user in to create a session.
+ app.post('/session',  (req, res) => {
+   res.send('New Session')
+ })
+
+// Default error handling (Middleware)
+app.use(function (error, req, res, next)  {
   console.error(error); 
   res.sendStatus(500); 
 });
-
-
